@@ -46,9 +46,9 @@ namespace PPMS.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, authResult.UserId.ToString()),
-                new Claim(ClaimTypes.Name, authResult.Username ?? string.Empty),
-                new Claim(ClaimTypes.Role, authResult.RoleID.ToString())
+                new(ClaimTypes.NameIdentifier, authResult.UserId.ToString()),
+                new(ClaimTypes.Name, authResult.Username ?? string.Empty),
+                new(ClaimTypes.Role, authResult.RoleID.ToString())
 
             };
 
