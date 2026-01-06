@@ -3,6 +3,7 @@ using DAL.Data;
 using DAL.Models.Entities;
 using DTO;
 using Microsoft.EntityFrameworkCore;
+using Helpers;
 
 namespace BL.Services
 {
@@ -20,15 +21,13 @@ namespace BL.Services
             bool usernameExists = await _context.Users
                 .AnyAsync(u => u.Username.ToLower() == dto.Username.ToLower());
 
-            if (usernameExists)
-                return -1;
-            
-
+            if (usernameExists) return -1;
+           
             var user = new User
             {
                 EmployeeID = dto.EmployeeID,
                 Username = dto.Username,
-                Password = dto.Password, // لاحقاً يمكن تشفيره قبل الحفظ
+                Password = PasswordHelper.HashPassword(dto.Password), // لاحقاً يمكن تشفيره قبل الحفظ
                 IsActive = dto.IsActive
             };
 

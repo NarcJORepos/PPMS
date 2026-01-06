@@ -5,6 +5,7 @@ using System.Security.Claims;
 using BL.Interfaces;
 using DTO;
 using Microsoft.AspNetCore.Authorization;
+using Helpers;
 
 namespace PPMS.Controllers
 {
@@ -33,8 +34,10 @@ namespace PPMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginUserDTO loginDto)
         {
-            if (!ModelState.IsValid)
-                return View(loginDto);
+            //For testing password hashing
+            //string xx = Helpers.PasswordHelper.HashPassword("111111111");
+
+            if (!ModelState.IsValid) return View(loginDto);
 
             var authResult = await _authService.AuthenticateAsync(loginDto);
 
