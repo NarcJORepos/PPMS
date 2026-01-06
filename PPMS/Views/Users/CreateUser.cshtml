@@ -1,0 +1,46 @@
+﻿@using PPMS.ViewModels
+@model CreateUserViewModel
+
+<div class="middle-content container-xxl p-0">
+    <div class="page-meta">
+        <nav class="breadcrumb-style-one" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Add New Employee</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<form asp-action="CreateUser" method="post" style="margin-top:20px">
+    @Html.AntiForgeryToken()
+    <div class="form-group mb-3" style="position: relative; width: 500px;">
+
+        <div class="form-group mb-4">
+            <label class="form-label" style="display:block; margin-bottom:10px;">Select Employee:</label>
+            <select asp-for="User.EmployeeID" asp-items="Model.Employees" class="form-select">
+                <option value="">--Select Employee--</option>
+            </select>
+            <span asp-validation-for="User.EmployeeID" class="text-danger" style="display:block; margin-top:7px;"></span>
+        </div>
+
+        <div class="form-group mb-4">
+            <label class="form-label" style="display:block; margin-bottom:5px;">Username:</label>
+            <input asp-for="User.Username" class="form-control" style="width:100%;" />
+            <span asp-validation-for="User.Username" class="text-danger" style="display:block; margin-top:7px;"></span>
+        </div>
+
+        <div class="form-group mb-4">
+            <label class="form-label" style="display:block; margin-bottom:5px;">Password:</label>
+            <input asp-for="User.Password" class="form-control" type="password" style="width:100%;" />
+            <span asp-validation-for="User.Password" class="text-danger" style="display:block; margin-top:7px;"></span>
+        </div>
+
+        <div class="form-check mb-3">
+            <input asp-for="User.IsActive" class="form-check-input" />
+            <label asp-for="User.IsActive" class="form-check-label"></label>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-2">Create User</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-danger mt-2" style="margin-left: 10px;">Cancel</a>
+    </div>
+</form>

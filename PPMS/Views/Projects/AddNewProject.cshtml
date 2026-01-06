@@ -1,0 +1,299 @@
+﻿@model DTO.AddNewProjectDTO
+
+@{
+    string pageTitle = Model.FundType == 1
+        ? "Internal Funding Projects"
+        : Model.FundType == 2
+            ? "External Funding Projects"
+            : "Add New Project";
+}
+
+<h3>@pageTitle</h3>
+
+<!-- ================= TABS ================= -->
+<ul class="nav nav-tabs mb-4" id="projectTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active"
+                id="basic-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#basic"
+                type="button"
+                role="tab">
+            Basic Information
+        </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <button class="nav-link"
+                id="objectives-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#objectives"
+                type="button"
+                role="tab">
+            Objectives
+        </button>
+    </li>
+</ul>
+
+<form asp-action="AddNewProject" method="post" id="AddNewProject">
+
+    <div class="tab-content" id="projectTabsContent">
+
+        <!-- ================= TAB 1 : BASIC INFORMATION ================= -->
+        <div class="tab-pane fade show active" id="basic" role="tabpanel">
+
+            <div class="form-group mb-3" style="width:600px">
+
+                <div class="form-group mb-3">
+                    <label>Project Reference Number</label>
+                    <input asp-for="ProjectRefNumber" class="form-control" />
+                    <span asp-validation-for="ProjectRefNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Project Name</label>
+                    <input asp-for="ProjectName" class="form-control" />
+                    <span asp-validation-for="ProjectName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Coordinator</label>
+                    <select asp-for="CoordinatorID"
+                            class="form-select"
+                            asp-items="@(new SelectList(ViewBag.Coordinators, "EmployeeID", "EmployeeName"))">
+                        <option value="">-- Select Coordinator --</option>
+                    </select>
+                    <span asp-validation-for="CoordinatorID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Pillar Lead</label>
+                    <select asp-for="PillarLeadID"
+                            class="form-select"
+                            asp-items="@(new SelectList(ViewBag.PillarLeads, "EmployeeID", "EmployeeName"))">
+                        <option value="">-- Select Pillar Lead --</option>
+                    </select>
+                    <span asp-validation-for="PillarLeadID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label class="form-label fw-semibold">Project Team</label>
+
+                    <!-- SEARCH -->
+                    <div class="input-group mb-2">
+                        <input type="text"
+                               id="participantSearch"
+                               class="form-control"
+                               placeholder="Search team members..." />
+                        @* <button type="button"
+                                class="btn btn-outline-secondary"
+                                onclick="searchParticipants()">
+                            Search
+                        </button> *@
+                    </div>
+
+                    <!-- PARTICIPANTS LIST -->
+                    <div class="border rounded p-3"
+                         id="participantsContainer"
+                         style="max-height:200px; overflow-y:auto">
+
+                        @if (ViewBag.Participants != null)
+                        {
+                            foreach (var emp in ViewBag.Participants)
+                            {
+                                <div class="form-check participant-item">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           name="ParticipantIDs"
+                                           value="@emp.EmployeeID"
+                                           id="participant_@emp.EmployeeID" />
+
+                                    <label class="form-check-label participant-name"
+                                           for="participant_@emp.EmployeeID">
+                                        @emp.EmployeeName
+                                    </label>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-muted">No participants available</div>
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Funding Agency</label>
+                    <select asp-for="FundingAgencyID" class="form-select">
+                        <option value="">-- Select Funding Agency --</option>
+                        @foreach (var agency in ViewBag.FundingAgencies)
+                        {
+                            <option value="@agency.FundingAgencyID">@agency.FundingAgencyName</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- ================= Duration ================= -->
+                <!-- Project Duration --> 
+                <div class="mb-4"> 
+                    <label class="form-label fw-semibold">Project Duration</label>
+                    <div id="fromDateContainer" class="mb-3">
+                        <label class="form-label mb-1">Start Date</label>
+                        <input asp-for="FromDate" type="date" id="fromDate" class="form-control form-control-sm" style="width:210px" /> 
+                        </div>
+                        <div id="toDateContainer" class="mb-3"> 
+                            <label class="form-label mb-1">End Date</label>
+                            <input asp-for="ToDate" type="date" id="toDate" class="form-control form-control-sm" style="width:210px" /> 
+                            </div> 
+                            <div id="dateError" class="text-danger d-none mt-1">"To Date" must be after "From Date".</div>
+                            </div> 
+                           
+
+                <div class="form-check form-switch mb-4">
+                    <input asp-for="IsOngoing" class="form-check-input" type="checkbox" id="IsOngoing" />
+                    <label class="form-check-label" for="IsOngoing">Ongoing Project</label>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Currency</label>
+                    <select asp-for="CurrencyID" asp-items="ViewBag.Currencies" class="form-select">
+                        <option value="">-- Select Currency --</option>
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Budget</label>
+                    <input asp-for="Budget" type="number" step="1000" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Project Charter</label>
+                    <input type="file" class="form-control" id="projectCharter" />
+                    <small id="projectCharterName" class="text-muted mt-1 d-block"></small>
+                </div>
+
+            </div>
+
+            <!-- ================= TAB 1 BUTTONS ================= -->
+            <div class="mt-4 d-flex gap-2">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        id="btnSaveDraft">
+                    Save as Draft
+                </button>
+
+                <button type="button"
+                        class="btn btn-primary"
+                        id="btnNextToObjectives">
+                    Next
+                </button>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="btn btn-danger">
+                    Cancel
+                </a>
+
+            </div>
+
+           
+        </div>
+       
+        <!-- ================= TAB 2 : OBJECTIVES ================= -->
+        <div class="tab-pane fade" id="objectives" role="tabpanel">
+
+            @Html.AntiForgeryToken()
+
+            <!-- ============================= -->
+            <!-- Project Dropdown (OPTIONAL – remove if not needed) -->
+            <!-- ============================= -->
+            <div class="form-group mb-3" style="width:500px">
+                <label class="fw-semibold">Project</label>
+                <select name="ProjectID" class="form-select">
+                    <option value="">-- Select Project --</option>
+                    @foreach (var p in ViewBag.ProjectList ?? new List<SelectListItem>())
+                    {
+                        <option value="@p.Value">@p.Text</option>
+                    }
+                </select>
+            </div>
+
+            <!-- ============================= -->
+            <!-- Main Goal -->
+            <!-- ============================= -->
+            <div class="mb-4" style="width:500px">
+                <label class="fw-semibold">Main Goal</label>
+                <textarea name="OperationalObjectiveName"
+                          class="form-control"
+                          rows="3"></textarea>
+            </div>
+
+            <hr />
+
+            <!-- ============================= -->
+            <!-- Operational Objectives -->
+            <!-- ============================= -->
+            <h6 class="fw-semibold mb-3">Operational Objectives</h6>
+
+            <div id="objectivesContainer" style="width:500px">
+
+                <div class="objective-item mb-3">
+                    <label>Objective 1</label>
+
+                    <textarea name="Objectives[0]"
+                              class="form-control mb-2"
+                              rows="2"></textarea>
+
+                    <div class="d-flex gap-2 mb-2">
+                        <div class="flex-grow-1">
+                            <label class="form-label">Start Date</label>
+                            <input type="date"
+                                   name="StartDates[0]"
+                                   class="form-control">
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <label class="form-label">Due Date</label>
+                            <input type="date"
+                                   name="EndDates[0]"
+                                   class="form-control">
+                        </div>
+                    </div>
+
+                    <!-- Weight -->
+                    <div class="mb-2" style="max-width:120px;">
+                        <label class="form-label">Weight (%)</label>
+                        <input type="number"
+                               name="Weights[0]"
+                               class="form-control"
+                               min="0" max="100">
+                    </div>
+                </div>
+
+            </div>
+
+
+            <button type="button"
+                    class="btn btn-outline-primary mt-2"
+                    id="addObjectiveBtn">
+                + Add New Objective
+            </button>
+            <!-- ================= TAB-2 BUTTONS ================= -->
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Add Project</button>
+                <button type="submit" class="btn btn-success">Save As Draft</button>
+                <button type="submit" class="btn btn-warning">Delete Project</button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-danger ms-2">Cancel</a>
+            </div>
+        </div>
+       
+    </div>
+   
+
+</form>
+
+@section Scripts {
+    <script src="~/js/AddNewProjectTab1JS.js"></script>
+    <script src="~/js/AddNewProjectTab2JS.js"></script>
+}

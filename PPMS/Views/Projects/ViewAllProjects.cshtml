@@ -1,0 +1,25 @@
+﻿@model IEnumerable<DTO.ProjectDTO>
+
+@await Html.PartialAsync("_DataTablesDependencies")
+
+<h2>View All Projects</h2>
+
+@* @if (Model != null && Model.Any())
+{ *@
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Project Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var project in Model)
+            {
+                <tr>
+                    <td>@project.ProjectID</td>
+                    <td>@project.ProjectName</td>
+                </tr>
+            }
+        </tbody>
+    </table>

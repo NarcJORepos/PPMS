@@ -1,0 +1,70 @@
+﻿@model DTO.AddOperationalObjectiveDTO
+
+@{
+    ViewData["Title"] = "Add Objectives";
+}
+
+<form asp-action="AddNewOperationalObjective" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <!-- ============================= -->
+    <!-- Project Dropdown -->
+    <!-- ============================= -->
+    <div class="form-group mb-3" style="width:500px">
+        <label class="fw-semibold">Project</label>
+        <select asp-for="ProjectID" class="form-select" asp-items="ViewBag.ProjectList">
+            <option value="">-- Select Project --</option>
+        </select>
+        <span asp-validation-for="ProjectID" class="text-danger d-block mt-3"></span>
+    </div>
+
+
+    <!-- ============================= -->
+    <!-- Main Goal -->
+    <!-- ============================= -->
+    <div class="mb-4" style="width:500px">
+        <label class="fw-semibold">Main Goal</label>
+        <textarea asp-for="OperationalObjectiveName" class="form-control" rows="3"></textarea>
+    </div>
+
+    <hr />
+
+    <!-- ============================= -->
+    <!-- Operational Objectives -->
+    <!-- ============================= -->
+    <h6 class="fw-semibold mb-3">Operational Objectives</h6>
+    <div id="objectivesContainer" style="width:500px">
+        <div class="objective-item mb-3">
+            <label>Objective 1</label>
+            <div class="d-flex gap-2">
+                <textarea name="Objectives[0]" class="form-control flex-grow-1" rows="2"></textarea>
+            </div>
+            <div class="d-flex gap-2 mb-2">
+                <div class="flex-grow-1">
+                    <label class="form-label">Start Date</label>
+                    <input type="date" name="StartDates[0]" class="form-control">
+                </div>
+                <div class="flex-grow-1">
+                    <label class="form-label">Due Date</label>
+                    <input type="date" name="EndDates[0]" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-outline-primary mt-2" id="addObjectiveBtn">
+        + Add New Objective
+    </button>
+
+    <!-- ============================= -->
+    <!-- Submit Button -->
+    <!-- ============================= -->
+    <div class="mt-4">
+        <button type="submit" class="btn btn-success">Save Objectives</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-danger ms-2">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+   
+}

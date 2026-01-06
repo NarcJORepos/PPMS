@@ -1,0 +1,447 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+    <title>@ViewData["Title"] PPMS</title>
+    <link rel="icon" type="image/x-icon" href="~/src/assets/img/favicon.ico" />
+
+    <!-- Loader CSS -->
+    <link href="~/layouts/semi-dark-menu/css/light/loader.css" rel="stylesheet" type="text/css" />
+    <link href="~/layouts/semi-dark-menu/css/dark/loader.css" rel="stylesheet" type="text/css" />
+    <script src="~/layouts/semi-dark-menu/loader.js"></script>
+
+    <!-- Global Mandatory Styles -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet" />
+    <link href="~/src/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/layouts/semi-dark-menu/css/light/plugins.css" rel="stylesheet" type="text/css" />
+    <link href="~/layouts/semi-dark-menu/css/dark/plugins.css" rel="stylesheet" type="text/css" />
+
+    <!-- Page Level Styles -->
+    <link href="~/src/plugins/src/apex/apexcharts.css" rel="stylesheet" type="text/css" />
+    <link href="~/src/assets/css/light/dashboard/dash_1.css" rel="stylesheet" type="text/css" />
+    <link href="~/src/assets/css/dark/dashboard/dash_1.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/src/plugins/src/table/datatable/datatables.css" />
+    <link rel="stylesheet" type="text/css" href="~/src/plugins/css/light/table/datatable/dt-global_style.css" />
+    <link rel="stylesheet" type="text/css" href="~/src/plugins/css/dark/table/datatable/dt-global_style.css" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+    <!-- scripts for validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+
+   
+</head>
+<body class="layout-boxed">
+
+    <!-- Loader -->
+    <div id="load_screen">
+        <div class="loader">
+            <div class="loader-content">
+                <div class="spinner-grow align-self-center"></div>
+            </div>
+        </div>
+    </div>
+    
+   
+    <!-- Navbar -->
+
+    <div nav-div class="header-container container-xxl">
+        <header nav-div class="header navbar navbar-expand-sm expand-header">
+
+            <ul nav-div class="navbar-item flex-row ms-lg-auto ms-0 action-area">
+
+                <!-- welcome -->
+                @if (User?.Identity?.IsAuthenticated ?? false)
+                {
+                    <li class="nav-item me-3">
+                        <h4>Welcome, @User.Identity?.Name</h4>                           
+                       
+                    </li>
+                }
+
+                <!-- mode -->
+                <li nav-div class="nav-item theme-toggle-item">
+                    <a nav-div href="javascript:void(0);" class="nav-link theme-toggle">
+                        <svg nav-div xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon dark-mode">
+                          <path b-elpxs0ehl7 d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <svg nav-div xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun light-mode">
+                            <circle b-elpxs0ehl7 cx="12" cy="12" r="5"></circle>
+                            <line b-elpxs0ehl7 x1="12" y1="1" x2="12" y2="3"></line>
+                            <line b-elpxs0ehl7 x1="12" y1="21" x2="12" y2="23"></line>
+                            <line b-elpxs0ehl7 x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line b-elpxs0ehl7 x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line b-elpxs0ehl7 x1="1" y1="12" x2="3" y2="12"></line>
+                            <line b-elpxs0ehl7 x1="21" y1="12" x2="23" y2="12"></line>
+                            <line b-elpxs0ehl7 x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line b-elpxs0ehl7 x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </a>
+                </li>
+
+                <!--Language-->
+                @using System.Globalization
+
+                <li class="nav-item">
+                    @if (CultureInfo.CurrentCulture.Name.StartsWith("en"))
+                    {                        
+                        <a href="/narcempgate/Home/ChangeLanguage?culture=ar-JO" class="nav-link">                       
+                            عربي
+                        </a>
+                    }
+                    else
+                    {
+                       
+                        <a href="/narcempgate/Home/ChangeLanguage?culture=en-UK" class="nav-link">
+                            EN
+                        </a>
+                    }
+                </li>         
+
+                <!-- user-icon -->
+                <li nav-div class="nav-item dropdown user-profile-dropdown  order-lg-0 order-1">
+                    <a b-elpxs0ehl7 href="" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div b-elpxs0ehl7 class="avatar-container">
+                           <div b-elpxs0ehl7 class="avatar avatar-sm">
+                            <img alt="avatar" src="~/images/user64.png" class="rounded-circle">
+                            </div>
+
+                        </div>
+                    </a>
+
+                    <div b-elpxs0ehl7 class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">                        
+                        <div b-elpxs0ehl7 class="dropdown-item mt-3">
+                            <a class="dropdown-link" href="/narcempgate/Account/EditProfile">
+                                <svg b-elpxs0ehl7 class="feather feather-lock" 
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle b-elpxs0ehl7 cx="12" cy="12" r="3"></circle>
+                                <path b-elpxs0ehl7 d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                    </svg> 
+                                <span b-elpxs0ehl7>Edit Profile</span>
+                            </a>
+                        </div>
+                        <div b-elpxs0ehl7 class="dropdown-item">
+                            <div b-elpxs0ehl7 class="dropdown-item">
+                                <form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" class="m-0 p-0">
+                                    @Html.AntiForgeryToken()
+                                    <a href="javascript:void(0);" class="dropdown-link" onclick="document.getElementById('logoutForm').submit();">
+                                        <svg b-elpxs0ehl7 xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="feather feather-log-out">
+                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                            <polyline points="16 17 21 12 16 7"></polyline>
+                                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                                        </svg>
+                                        <span b-elpxs0ehl7>Sign Out</span>
+                                    </a>
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+            </ul>
+        </header>
+    </div>
+
+    <!-- End NavBar -->
+
+    <!-- Main Container -->
+    <div class="main-container" id="container">
+        <div class="overlay"></div>
+        <div class="search-overlay"></div>
+
+        <!-- Sidebar -->
+        <div class="sidebar-wrapper sidebar-theme">
+            <nav id="sidebar">
+                <div class="navbar-nav theme-brand flex-row text-center">
+                    <div class="nav-logo">
+                        <div class="nav-item theme-logo">
+                            <a href="/Home/index">
+                                <img src="~/src/assets/img/logo.svg" class="navbar-logo" alt="logo" />
+                            </a>
+                        </div>
+                        <div class="nav-item theme-text">
+                            <a href="/Home/index" class="nav-link">NARC</a>
+                        </div>
+                    </div>
+                    <div class="nav-item sidebar-toggle">
+                        <div class="btn-toggle sidebarCollapse">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-left">
+                                <polyline points="11 17 6 12 11 7"></polyline>
+                                <polyline points="18 17 13 12 18 7"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shadow-bottom"></div>
+                <ul class="list-unstyled menu-categories" id="accordionExample">
+                  
+                    <!-- Dashboard -->
+                    <li class="menu">
+                        <a href="#dashboard" data-bs-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                        
+                            <div><span>Dashboard</span></div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+                        <ul class="collapse submenu list-unstyled show" id="dashboard" data-bs-parent="#accordionExample">
+                            <li class=""><a href="./index.html">All Projects</a></li>
+                            <li><a href="./index2.html">Reports</a></li>
+                        </ul>
+                    </li>
+                   
+
+                    
+                    <!-- Projects main-->
+                    <li class="menu menu-heading">
+                        <div class="heading">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            <span>PROJECTS</span>
+                        </div>
+                    </li>
+
+                    <!-- Funding Agency -->
+                    <li class="menu">
+                        <a href="#FundingAgency" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <div><span>Funding Agency</span></div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+                        <ul class="collapse submenu list-unstyled" id="FundingAgency" data-bs-parent="#accordionExample">
+                            <li><a asp-controller="FundingAgency" asp-action="ViewAllFundingAgencies">List</a></li>
+                            <li><a asp-controller="FundingAgency" asp-action="AddNewFundingAgency">Add</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Projects -->
+                    <li class="menu">
+                        <a href="#projects" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <div><span>Projects</span></div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="projects" data-bs-parent="#accordionExample">
+                            <!-- Existing Project Links -->
+                            <li>
+                                <a asp-controller="Projects" asp-action="ViewAllProjects">List</a>
+                            </li>
+                            <li>
+                                <a href="#addProject" data-bs-toggle="collapse" aria-expanded="false">
+                                    Add New Project
+                                </a>
+                                <ul class="collapse list-unstyled ps-3" id="addProject" style="margin-left: 10px;">
+                                    <li>
+                                        <a asp-controller="Projects" asp-action="AddNewProject" asp-route-projectTypeID="1">Internal</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Projects" asp-action="AddNewProject" asp-route-projectTypeID="2">External</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a asp-controller="Projects" asp-action="AddProjectFiles">Project Files</a>
+                            </li>
+
+                            @* <!-- Operational Objectives Section -->
+                            <li>
+                                <a href="#operationalObjectives" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                    Operational Objectives
+                                </a>
+                                <ul class="collapse list-unstyled ps-3" id="operationalObjectives" style="margin-left: 10px;">
+                                    <li>
+                                        <a asp-controller="OperationalObjectives" asp-action="Index" asp-route-projectID="1">Get All Operational Objectives</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="OperationalObjectives" asp-action="AddNewOperationalObjective">Add New Operational Objective</a>
+                                    </li>
+                                </ul>
+                            </li> *@
+
+                        </ul>
+                    </li>
+
+
+
+                    <!-- End Projects -->
+
+
+                    <!-- Adminstration -->
+                    <li class="menu menu-heading">
+                        <div class="heading">
+                            
+                            <span>ADMINISTRATION</span>
+                        </div>
+                    </li>
+
+
+                    <!-- Directorates -->
+                    <li class="menu">
+                        <a href="#Directorates" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <div><span>Directorates</span></div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+                        <ul class="collapse submenu list-unstyled" id="Directorates" data-bs-parent="#accordionExample">
+                            <li><a asp-controller="Directorates" asp-action="ViewAllDirectorates">List</a></li>
+                            <li><a asp-controller="Directorates" asp-action="AddNewDirectorate">Add</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Groups -->
+                    <li class="menu">
+                        <a href="#Groups" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <div><span>Groups</span></div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+                        <ul class="collapse submenu list-unstyled" id="Groups" data-bs-parent="#accordionExample">
+                            <li><a asp-controller="Groups" asp-action="ViewAllGroups">List</a></li>
+                            <li><a asp-controller="Groups" asp-action="AddNewGroup">Add</a></li>
+                        </ul>
+                    </li>    
+                    
+                    <!-- Roles -->
+                    <li class="menu">
+                        <a href="#roles" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <div><span>Roles</span></div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="roles" data-bs-parent="#accordionExample">
+                            <li>
+                                <a asp-controller="Roles" asp-action="AddRolesToGroups">Add</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <!-- Employees -->
+                    <li class="menu">
+                        <a href="#employees" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <div><span>Employees</span></div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+                        <ul class="collapse submenu list-unstyled" id="employees" data-bs-parent="#accordionExample">
+                            <li><a asp-controller="Employees" asp-action="ViewAllEmployees">List</a></li>
+                            <li><a asp-controller="Employees" asp-action="AddNewEmployee">Add</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Manage Users -->
+                    <li class="menu">
+                        <a href="#manageusers" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <div><span>Users</span></div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+                        <ul class="collapse submenu list-unstyled" id="manageusers" data-bs-parent="#accordionExample">
+                            <li><a asp-controller="Users" asp-action="ViewAllUsers">List</a></li>
+                            <li><a asp-controller="Users" asp-action="CreateUser">Add</a></li>
+                        </ul>
+                    </li> 
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper p-4" style="margin-left:250px; margin-top:80px;">
+            @RenderBody()
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/src/plugins/src/global/vendors.min.js"></script>
+    <script src="~/src/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/src/plugins/src/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="~/src/plugins/src/mousetrap/mousetrap.min.js"></script>
+    <script src="~/src/plugins/src/waves/waves.min.js"></script>
+    <script src="~/layouts/semi-dark-menu/app.js"></script>
+    <script src="~/src/assets/js/custom.js"></script>
+    <script src="~/src/plugins/src/apex/apexcharts.min.js"></script>
+    <script src="~/src/assets/js/dashboard/dash_1.js"></script>
+    <script src="~/src/plugins/src/table/datatable/datatables.js"></script>
+
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l>" +
+                    "<'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+                    "<'table-responsive'tr>" +
+                    "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": '<svg ...></svg>',
+                    "sNext": '<svg ...></svg>'
+                },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg ...></svg>',
+                "sSearchPlaceholder": "Search...",
+                "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<DTO.OperationalObjectiveListDTO>
+@{
+    ViewData["Title"] = "Operational Objectives";
+    //int projectID = ViewBag.ProjectID;
+}
+
+
+<p>
+    <a asp-action="AddNewOperationalObjective" class="btn btn-primary">Add New Objective</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td>@obj.OperationalObjectiveID</td>
+                <td>@obj.OperationalObjectiveName</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@obj.OperationalObjectiveID" class="btn btn-sm btn-warning">Edit</a>
+
+                    <form asp-action="Delete" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@obj.OperationalObjectiveID" />
+                       @*  <input type="hidden" name="projectID" value="@projectID" /> *@
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

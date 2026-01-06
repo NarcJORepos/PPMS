@@ -1,0 +1,26 @@
+﻿@model DTO.GroupDTO
+<div class="middle-content container-xxl p-0">
+    <div class="page-meta">
+        <nav class="breadcrumb-style-one" aria-label="breadcrumb">
+            <ol class="breadcrumb">               
+                <li class="breadcrumb-item active" aria-current="page">Add New Group</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<form asp-action="AddNewGroup" method="post" style="margin-top:30px">
+    <div class="form-group mb-3" style="position: relative; width: 500px;">
+
+        <div class="form-group mb-4">
+
+            <label class="form-label" style="display:block; margin-bottom:5px;">Group:</label>
+            <input asp-for="GroupName" class="form-control" style="width:100%;" />
+            <span asp-validation-for="GroupName" class="text-danger" style="display:block; margin-top:7px;"></span>
+
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Save</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-danger mt-2" style="margin-left: 10px;">Cancel</a>
+
+    </div>
+</form>

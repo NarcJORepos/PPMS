@@ -1,0 +1,45 @@
+﻿@model DTO.AddFundingAgencyDTO
+@using DAL.Models.Entities  <!-- استدعاء الـ enum -->
+
+<div class="middle-content container-xxl p-0">
+    <div class="page-meta">
+        <nav class="breadcrumb-style-one" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Add New Funding Agency</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<form asp-action="AddNewFundingAgency" method="post" style="margin-top:30px">
+    <div class="form-group mb-3" style="position: relative; width: 500px;">
+
+        <!-- Radio buttons for Fund Type -->
+        <div class="form-group mb-3 d-flex  gap-3">
+            <label class="form-label mb-0">Fund Type:</label>
+
+            <div class="form-check mb-0">
+                <input class="form-check-input" type="radio" asp-for="FundTypeID" value="1" id="internal" />
+                <label class="form-check-label" for="internal">Internal</label>
+            </div>
+
+            <div class="form-check mb-0">
+                <input class="form-check-input" type="radio" asp-for="FundTypeID" value="2" id="external" />
+                <label class="form-check-label" for="external">External</label>
+            </div>
+        </div>
+        <span asp-validation-for="FundTypeID" class="text-danger" style="display:block; margin-top:7px;"></span>
+
+
+
+        <!-- Funding Agency Name -->
+        <div class="form-group mb-4" style="margin-top:15px;">
+            <label class="form-label" style="display:block; margin-bottom:8px;">Funding Agency:</label>
+            <input asp-for="FundingAgencyName" class="form-control" style="width:100%;" />
+            <span asp-validation-for="FundingAgencyName" class="text-danger" style="display:block; margin-top:7px;"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-2">Save</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-danger mt-2" style="margin-left: 10px;">Cancel</a>
+    </div>
+</form>

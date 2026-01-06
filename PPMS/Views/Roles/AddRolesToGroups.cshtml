@@ -1,0 +1,97 @@
+﻿@model PPMS.ViewModels.RolesViewModel
+
+@* استدعاء CSS و JS الخاص بـ DataTables *@
+@await Html.PartialAsync("_DataTablesDependencies")
+
+<div class="header-container container-xxl">
+    <div class="layout-px-spacing">
+        <div class="middle-content container-xxl p-0">
+
+            <div class="page-meta">
+                <nav class="breadcrumb-style-one" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">Roles</li>
+                        <li class="breadcrumb-item">Role Pages Permissions</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <!-- Dropdown -->
+            <div class="form-group mb-4 mt-5">               
+                @Html.DropDownListFor(
+                    m => m.SelectedGroupID,
+                    ViewBag.Groups as SelectList,
+                    "--Select Group--",
+                         new { @class = "form-select", id = "groupDropdown", style = "width: 300px;" }
+                    )
+            </div>
+
+            <!-- Table -->
+            <div class="row layout-top-spacing">
+                <div class="col-12 layout-spacing">
+                    <div class="widget-content widget-content-area br-8">
+                        <div class="table-responsive">
+
+                            @if (Model.Roles != null && Model.Roles.Any())
+                            {
+                                <table id="zero-config" class="table dt-table-hover nowrap" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Page Name</th>
+                                            <th>Add</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                            <th>View</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Roles)
+                                        {
+                                            <tr class="text-center align-middle">
+                                                <td class="text-start">@item.PageName</td>
+                                                <td>
+                                                    <input type="checkbox" class="perm-toggle"                                                          
+                                                           data-page="@item.PageID"
+                                                           data-field="CanAdd"
+                                                    @(item.CanAdd ? "checked" : "") />
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="perm-toggle"                                                          
+                                                           data-page="@item.PageID"
+                                                           data-field="CanEdit"
+                                                    @(item.CanEdit ? "checked" : "") />
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="perm-toggle"                                                          
+                                                           data-page="@item.PageID"
+                                                           data-field="CanDelete"
+                                                    @(item.CanDelete ? "checked" : "") />
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="perm-toggle"                                                          
+                                                           data-page="@item.PageID"
+                                                           data-field="CanView"
+                                                    @(item.CanView ? "checked" : "") />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <div class="alert alert-info mt-3">No role page permissions found.</div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <button type="submit" class="btn btn-primary mt-2">Save</button>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-danger mt-2" style="margin-left: 10px;">Cancel</a>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,19 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model DTO.ProjectDTO
+
+<form asp-action="Add" method="post">
+    <div class="form-group">
+        <label asp-for="ProjectRefNumber"></label>
+        <input asp-for="ProjectRefNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ProjectName"></label>
+        <input asp-for="ProjectName" class="form-control" />
+    </div>
+    <!-- أضف باقي الحقول حسب الحاجة -->
+    <button type="submit" class="btn btn-primary mt-2">Save</button>
+</form>

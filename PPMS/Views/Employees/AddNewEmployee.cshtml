@@ -1,0 +1,45 @@
+﻿@model DTO.EmployeeDTO
+
+<div class="middle-content container-xxl p-0">
+    <div class="page-meta">
+        <nav class="breadcrumb-style-one" aria-label="breadcrumb">
+            <ol class="breadcrumb">           
+                <li class="breadcrumb-item active" aria-current="page">Add New Employee</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<form asp-action="AddNewEmployee" method="post" style="margin-top:20px">
+    <div class="form-group mb-3" style="position: relative; width: 500px;">
+        <div class="form-group mb-4">
+            <label class="form-label" style="display:block; margin-bottom:10px;">Select Directorate:</label>
+            <select asp-for="DirectorateID" asp-items="ViewBag.Directorates" class="form-select">
+                <option value="">--Select Directorate--</option>
+            </select>
+
+            <span asp-validation-for="DirectorateID" class="text-danger" style="display:block; margin-top:7px;"></span>
+        </div> 
+
+       <div class="form-group mb-4">
+            <label class="form-label" style="display:block; margin-bottom:10px;">Select Group:</label>
+            <select asp-for="GroupID" asp-items="ViewBag.Groups" class="form-select">
+                <option value="">--Select Group--</option>
+            </select>
+
+            <span asp-validation-for="GroupID" class="text-danger" style="display:block; margin-top:7px;"></span>
+        </div> 
+
+       
+
+        <div class="form-group mb-4">
+       
+        <label class="form-label" style="display:block; margin-bottom:5px;">Employee Name:</label>
+        <input asp-for="Name" class="form-control" style="width:100%;" />
+        <span asp-validation-for="Name" class="text-danger" style="display:block; margin-top:7px;"></span>      
+
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Save</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-danger mt-2" style="margin-left: 10px;">Cancel</a>
+  </div>
+ </form>

@@ -1,0 +1,85 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model IEnumerable<DTO.UserDTO>
+@{
+    Layout = "_Layout"; // أو null إذا لا تستخدم layout
+}
+
+@* استدعاء كل الـ CSS و JS من الملف الجزئي *@
+@await Html.PartialAsync("_DataTablesDependencies")
+
+<div class="header-container container-xxl">
+    <div class="layout-px-spacing">
+        <div class="middle-content container-xxl p-0">
+            <div class="page-meta">
+                <nav class="breadcrumb-style-one" aria-label="breadcrumb">
+                    <ol class="breadcrumb">                    
+                        <li class="breadcrumb-item active" aria-current="page">Users</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="row layout-top-spacing">
+                <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
+                    <div class="widget-content widget-content-area br-8">
+                        <div class="table-responsive">
+                            <table id="zero-config" class="table dt-table-hover nowrap" style="width:100%">
+                                <thead>
+                                    <tr>                                       
+                                        <th>Username</th>                                      
+                                        <th>Employee Name</th>
+                                        <th>Is Active</th>
+                                        <th class="no-content">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null && Model.Any())
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.Username</td>
+                                                <td>@item.EmployeeName</td>
+                                                <td>@item.IsActive</td>
+                                               
+                                                <td>
+                                                    <a href="#" class="text-danger" title="Delete">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                             class="feather feather-x-circle table-cancel">
+                                                            <circle cx="12" cy="12" r="10"></circle>
+                                                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                                                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                                                        </svg>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-center">No directorates found.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#zero-config').DataTable();
+    });
+</script>
